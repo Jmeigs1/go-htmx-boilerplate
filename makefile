@@ -1,7 +1,7 @@
 SOURCES = $(wildcard templates/*.templ)
 TEMPLATES = $(SOURCES:.templ=_templ.go)
 
-.PHONY: templates run build serve clean
+.PHONY: templates run build serve clean watch
 
 all: templates build
 
@@ -11,6 +11,9 @@ templates: $(TEMPLATES)
 
 $(TEMPLATES): $(SOURCES) 
 	templ generate
+
+watch:
+	templ generate --watch templates
 
 build:
 	go build
