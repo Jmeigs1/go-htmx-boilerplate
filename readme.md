@@ -1,6 +1,6 @@
 # Go Htmx Boilerplate
 
-An example application that sets up basic UI and routing for a web application
+An example web application with basic UI and routing 
 
 ## Tech Stack
 
