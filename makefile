@@ -19,4 +19,4 @@ serve:
 	go run main.go
 
 clean:
-	rm -f $(wildcard templates/*.go) rename-me
+	rm -f $(TEMPLATES) rename-me
