@@ -1,5 +1,5 @@
 SOURCES = $(wildcard templates/*.templ)
-TEMPLATES = $(wildcard templates/*_templ.go)
+TEMPLATES = $(SOURCES:.templ=_templ.go)
 
 .PHONY: templates run build serve clean
 
@@ -19,4 +19,4 @@ serve:
 	go run main.go
 
 clean:
-	rm $(wildcard templates/*.go) caec-dashboard
+	rm -f $(wildcard templates/*.go) rename-me
