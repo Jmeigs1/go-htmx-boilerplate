@@ -1,6 +1,10 @@
 package templates
 
-templ sidebar(appRoutes []routeData, selectedRoute string) {
+import (
+	"rename-me/routes"
+)
+
+templ sidebar(selectedRoute string) {
 	<div id="tabs" hx-boost="true" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
 		<a
  			href="/"
@@ -13,25 +17,25 @@ templ sidebar(appRoutes []routeData, selectedRoute string) {
 		</a>
 		<hr/>
 		<ul class="nav nav-pills flex-column mb-auto">
-			@routes(appRoutes, selectedRoute)
+			@links(selectedRoute)
 		</ul>
 		<hr/>
 	</div>
 }
 
-templ routes(appRoutes []routeData, selectedRoute string) {
-	for _,r := range appRoutes {
+templ links(selectedRoute string) {
+	for _,r := range routes.AppRoutes {
 		<li class="nav-item">
 			<a
- 				href={ templ.SafeURL("/" + r.url) }
+ 				href={ templ.SafeURL(r.Url) }
  				hx-push-url="true"
- 				if r.url == selectedRoute {
+ 				if r.Url == selectedRoute {
 					class={ "nav-link active" }
 				} else {
 					class="nav-link text-white"
 				}
 			>
-				{ r.name }
+				{ r.Name }
 			</a>
 		</li>
 	}

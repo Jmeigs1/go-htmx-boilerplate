@@ -25,4 +25,4 @@ serve:
 	go run main.go
 
 clean:
-	rm -f $(TEMPLATES) templ rename-me
+	rm -f $(shell find . -type f -name '*_templ.go') templ rename-me

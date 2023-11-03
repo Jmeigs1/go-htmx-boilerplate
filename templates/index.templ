@@ -1,33 +1,12 @@
 package templates
 
-type routeData struct {
-	name string
-	url  string
-}
+import ()
 
-var appRoutes = []routeData{
-	{
-		name: "Home",
-		url:  "",
-	},
-	{
-		name: "Page 1",
-		url:  "1",
-	},
-	{
-		name: "Page 2",
-		url:  "2",
-	},
-	{
-		name: "Page 3",
-		url:  "3",
-	},
-}
-
-templ Index(route string) {
+templ Index(route string, bodyComponent templ.Component) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
+			<link rel="shortcut icon" href="/static/favicon.svg"/>
 			<link
  				href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
  				rel="stylesheet"
@@ -40,18 +19,22 @@ templ Index(route string) {
 			/>
 			<script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
 		</head>
-		@Body(route)
+		@Body(route, bodyComponent)
 	</html>
 }
 
-templ Body(route string) {
+templ Body(route string, bodyComponent templ.Component) {
 	<body>
 		@icons()
-		<main>
-			@sidebar(appRoutes, route)
-			<div id="tab-content">
-				{ route }
+		<main class="flex-grow-1">
+			@sidebar(route)
+			<div class="container mx-4 overflow-auto" id="tab-content">
+				@bodyComponent
 			</div>
 		</main>
 	</body>
+}
+
+templ Other(route string) {
+	<div>{ route }</div>
 }

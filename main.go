@@ -1,7 +1,7 @@
 package main
 
 import (
-	"context"
+	"rename-me/pages/example"
 	"rename-me/templates"
 
 	"github.com/labstack/echo/v4"
@@ -11,25 +11,26 @@ import (
 func main() {
 	e := echo.New()
 	e.HideBanner = true
+	e.HidePort = true
 
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Recover())
 	e.Static("/static", "static")
 
-	e.GET("/", func(c echo.Context) error {
-		templates.Index("").Render(context.Background(), c.Response())
-		return nil
-	})
+	e.GET("/", redirectHome)
+	example.AddRoutes(e)
+	e.GET("/1", printRoute)
+	e.GET("/2", printRoute)
+	e.GET("/3", printRoute)
 
-	e.GET("/:route", func(c echo.Context) error {
-		hxr := c.Request().Header["Hx-Request"]
-		if len(hxr) > 0 && hxr[0] == "true" {
-			templates.Body(c.Param("route")).Render(context.Background(), c.Response())
-		} else {
-			templates.Index(c.Param("route")).Render(context.Background(), c.Response())
-
-		}
-		return nil
-	})
 	e.Logger.Fatal(e.Start(":1323"))
+}
+
+func redirectHome(c echo.Context) error {
+	return c.Redirect(301, "/example")
+}
+
+func printRoute(c echo.Context) error {
+	route := c.Path()
+	return templates.WrapMainRoute(templates.Other(route))(c)
 }

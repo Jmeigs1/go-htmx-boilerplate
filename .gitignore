@@ -1,2 +1,6 @@
+# Executables
 rename-me
 templ
+
+# Generated templ files
+*_templ.go
