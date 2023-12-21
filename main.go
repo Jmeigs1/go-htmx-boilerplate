@@ -27,7 +27,7 @@ func main() {
 }
 
 func redirectHome(c echo.Context) error {
-	return c.Redirect(301, "/example")
+	return c.Redirect(302, "/example")
 }
 
 func printRoute(c echo.Context) error {
