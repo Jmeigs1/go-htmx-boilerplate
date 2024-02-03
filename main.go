@@ -1,11 +1,18 @@
 package main
 
 import (
-	"rename-me/pages/example"
+	"fmt"
+	"rename-me/pages"
+	"rename-me/routes"
 	"rename-me/templates"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+)
+
+const (
+	PORT = 1323
+	HOME = "/example"
 )
 
 func main() {
@@ -17,17 +24,22 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Static("/static", "static")
 
-	e.GET("/", redirectHome)
-	example.AddRoutes(e)
-	e.GET("/1", printRoute)
-	e.GET("/2", printRoute)
-	e.GET("/3", printRoute)
+	// Can add a prefix here if app needs one
+	g := e.Group("")
 
-	e.Logger.Fatal(e.Start(":1323"))
+	// Order of adding determines the order in sidebar
+	pages.AddAllRoutes(g)
+	routes.AddRoute("1", "/1", g, printRoute)
+	routes.AddRoute("2", "/2", g, printRoute)
+	routes.AddRoute("3", "/3", g, printRoute)
+
+	e.Any("/*", redirectHome)
+	fmt.Printf("Server hosted at http://localhost:%d\n", PORT)
+	e.Logger.Fatal(e.Start(fmt.Sprint(":", PORT)))
 }
 
 func redirectHome(c echo.Context) error {
-	return c.Redirect(302, "/example")
+	return c.Redirect(302, HOME)
 }
 
 func printRoute(c echo.Context) error {

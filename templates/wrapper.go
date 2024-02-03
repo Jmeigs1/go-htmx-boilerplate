@@ -12,11 +12,13 @@ func WrapMainRoute(tabContent templ.Component) echo.HandlerFunc {
 		hxr := c.Request().Header["Hx-Request"]
 		route := c.Path()
 
-		if len(hxr) > 0 && hxr[0] == "true" {
-			Body(route, tabContent).Render(context.Background(), c.Response())
-		} else {
-			Index(route, tabContent).Render(context.Background(), c.Response())
+		// A context can be defined here that will give global access to all rendered content
+		ctx := context.Background()
 
+		if len(hxr) > 0 && hxr[0] == "true" {
+			Body(route, tabContent).Render(ctx, c.Response())
+		} else {
+			BodyWithBase(route, tabContent).Render(ctx, c.Response())
 		}
 		return nil
 	}

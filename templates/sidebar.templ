@@ -2,18 +2,25 @@ package templates
 
 import (
 	"rename-me/routes"
+	"rename-me/templates/base"
 )
 
 templ sidebar(selectedRoute string) {
-	<div id="tabs" hx-boost="true" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+	<div
+		id="tabs"
+		hx-boost="true"
+		hx-target="#main"
+		class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+		style="width: 280px;"
+	>
 		<a
- 			href="/"
- 			hx-push-url="true"
- 			style="fill: currentColor"
- 			class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+			href="/dashboard"
+			hx-push-url="true"
+			style="fill: currentColor"
+			class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
 		>
 			<svg width="40" height="32"><use xlink:href="#speedometer2"></use></svg>
-			<span class="ms-2 fs-4">Go + HTMX</span>
+			<span class="ms-2 fs-4">{ base.TITLE }</span>
 		</a>
 		<hr/>
 		<ul class="nav nav-pills flex-column mb-auto">
@@ -27,10 +34,10 @@ templ links(selectedRoute string) {
 	for _,r := range routes.AppRoutes {
 		<li class="nav-item">
 			<a
- 				href={ templ.SafeURL(r.Url) }
- 				hx-push-url="true"
- 				if r.Url == selectedRoute {
-					class={ "nav-link active" }
+				href={ templ.SafeURL(r.Url) }
+				hx-push-url="true"
+				if r.Url == selectedRoute {
+					class="nav-link active"
 				} else {
 					class="nav-link text-white"
 				}
