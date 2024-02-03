@@ -1,5 +1,7 @@
-SOURCES = $(shell find . -type f -name '*.templ')
-TEMPLATES = $(SOURCES:.templ=_templ.go)
+TEMPL_SOURCES = $(shell find . -type f -name '*.templ')
+TEMPLATES = $(TEMPL_SOURCES:.templ=_templ.go)
+
+GO_SOURCES = $(shell find . -type f -name '*.go')
 
 .PHONY: templates run build serve clean watch
 
@@ -12,13 +14,15 @@ templ:
 
 templates: templ $(TEMPLATES)
 
-$(TEMPLATES): $(SOURCES) 
+$(TEMPLATES): $(TEMPL_SOURCES) 
 	./templ generate
 
 watch: templ
 	./templ generate --watch .
 
-build:
+build: rename-me
+
+rename-me: $(GO_SOURCES) $(TEMPL_SOURCES)
 	go build
 
 serve:
