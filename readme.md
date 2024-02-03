@@ -10,9 +10,9 @@ An example web application with basic UI and routing
 
 ## Replace project name on clone
 
-The name in this boiler has been initally set up as `rename-me`
+The name in this boiler has been initially set up as `rename-me`
 
-Please find and replace this string with you're prefered project name.
+Please find and replace this string with you're preferred project name.
 
 (OSX example):
 
